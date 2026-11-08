@@ -1,223 +1,273 @@
 
-"use client";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  ArrowUpRight,
+  Sparkles,
+  Globe2,
+  Heart,
+  ShieldCheck,
+  Layers3,
+} from "lucide-react";
 
-import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation";
+const cards = [
+  {
+    name: "Birthday Wishes",
+    desc: "Make their day unforgettable.",
+    tone: "birthday",
+  },
+  {
+    name: "Love & Romance",
+    desc: "A personal message, beautifully presented.",
+    tone: "love",
+  },
+  {
+    name: "Wedding Invitations",
+    desc: "Elegant digital invitations for your big day.",
+    tone: "wedding",
+  },
+  {
+    name: "Eid Greetings",
+    desc: "Share warm wishes with everyone.",
+    tone: "eid",
+  },
+];
 
-function OrderPageContent() {
-  const params = useSearchParams();
-  const [form, setForm] = useState({
-    name: "",
-    whatsapp: "",
-    email: "",
-    occasion: params.get("occasion") || "",
-    recipient: "",
-    message: "",
-    design: "",
-    delivery: "",
-  });
-
-  const [photo, setPhoto] = useState<File | null>(null);
-
-  function update(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  }
-
-  function submit(e: React.FormEvent) {
-    e.preventDefault();
-
-    const message = `
-KHAANS DIGITS - NEW WISHES CARD ORDER
-
-Customer: ${form.name}
-WhatsApp: ${form.whatsapp}
-Email: ${form.email}
-Occasion: ${form.occasion}
-Recipient: ${form.recipient}
-Message: ${form.message}
-Design: ${form.design}
-Delivery Date: ${form.delivery}
-Photo attached separately: ${photo ? photo.name : "No"}
-    `;
-
-    window.open(
-      `https://wa.me/923449531512?text=${encodeURIComponent(message)}`,
-      "_blank"
-    );
-  }
-
+export default function Home() {
   return (
-    <main className="order-page">
-      <section className="order-container">
-        <span className="order-label">KHAANS DIGITS</span>
+    <main>
+      <nav className="nav wrap">
+        <Link href="/" className="brand">
+          <img
+  src="/logo.png"
+  alt="KHAANS DIGITS logo"
+  width="48"
+  height="48"
+/>
+          <span>
+            KHAANS <b>DIGITS</b>
+          </span>
+        </Link>
 
-        <h1>
-          Create Your
-          <span> Wishes Card.</span>
-        </h1>
+        <div className="navlinks">
+          <a href="#cards">Wishes Cards</a>
+          <a href="#services">Services</a>
+          <a href="#work">Our Work</a>
+          <a href="#process">Process</a>
+        </div>
 
-        <p>
-          Let us create something beautiful for your special moment.
-        </p>
+        <Link className="navcta" href="/order">
+          Start an Order <ArrowUpRight size={16} />
+        </Link>
+      </nav>
 
-        <form onSubmit={submit}>
-          <label>Customer Name</label>
-          <input name="name" required value={form.name} onChange={update} />
+      <section className="hero wrap">
+        <div className="hero-copy">
+          <div className="eyebrow">
+            <span className="pulse" />
+            DIGITAL CREATIVITY, REIMAGINED
+          </div>
 
-          <label>WhatsApp Number</label>
-          <input name="whatsapp" required value={form.whatsapp} onChange={update} />
+          <h1>
+            Make every
+            <br />
+            <em>moment</em> memorable.
+          </h1>
 
-          <label>Email Address</label>
-          <input type="email" name="email" required value={form.email} onChange={update} />
+          <p className="lead">
+            Premium digital wishes cards and immersive 3D websites, crafted
+            around your ideas.
+          </p>
 
-          <label>Card Occasion</label>
-          <select name="occasion" required value={form.occasion} onChange={update}>
-            <option value="">Select occasion</option>
-            <option value="Birthday">Birthday</option>
-            <option value="Anniversary">Anniversary</option>
-            <option value="Love">Love</option>
-            <option value="Eid">Eid</option>
-            <option value="Wedding">Wedding</option>
-            <option value="Congratulations">Congratulations</option>
-            <option value="Other">Other</option>
-          </select>
+          <div className="actions">
+            <Link className="button primary" href="/order">
+              Order Your Design <ArrowUpRight size={18} />
+            </Link>
+            <a className="button ghost" href="#cards">
+              Explore wishes cards
+            </a>
+          </div>
 
-          <label>Recipient Name</label>
-          <input name="recipient" required value={form.recipient} onChange={update} />
+          <div className="trust">
+            <ShieldCheck size={17} />
+            Personalised designs · Direct communication · Made with care
+          </div>
+        </div>
 
-          <label>Custom Message</label>
-          <textarea name="message" required value={form.message} onChange={update} rows={4} />
+        <div className="hero-art">
+          <div className="orb orb1" />
+          <div className="orb orb2" />
 
-          <label>Preferred Design</label>
-          <select name="design" value={form.design} onChange={update}>
-            <option value="">Choose design</option>
-            <option value="Luxury Green">Luxury Green</option>
-            <option value="Romantic">Romantic</option>
-            <option value="Elegant Gold">Elegant Gold</option>
-            <option value="Minimal">Minimal</option>
-            <option value="Custom">Custom</option>
-          </select>
+          <div className="glass-card card-back">
+            <span>YOUR MOMENT</span>
+            <b>Made special.</b>
+            <small>DESIGNED FOR YOU</small>
+          </div>
 
-          <label>Upload Photo</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setPhoto(e.target.files?.[0] || null)}
-          />
+          <div className="glass-card card-front">
+            <Sparkles size={22} />
+            <span>WITH LOVE</span>
+            <h2>
+              A little
+              <br />
+              more magic.
+            </h2>
+            <div className="card-line" />
+          </div>
 
-          <label>Delivery Date</label>
-          <input
-            type="date"
-            name="delivery"
-            required
-            value={form.delivery}
-            onChange={update}
-          />
-
-          <button type="submit">
-            Send Order on WhatsApp ↗
-          </button>
-        </form>
+          <div className="float-tag">
+            <Heart size={15} fill="currentColor" />
+            Made personal
+          </div>
+        </div>
       </section>
 
-      <style jsx>{`
-        .order-page {
-          min-height: 100vh;
-          background: #050a08;
-          color: white;
-          padding: 70px 20px;
-        }
+      <section className="intro wrap" id="cards">
+        <div>
+          <div className="eyebrow">THE WISHES COLLECTION</div>
+          <h2>
+            Words become
+            <br />
+            <em>experiences.</em>
+          </h2>
+        </div>
 
-        .order-container {
-          max-width: 680px;
-          margin: auto;
-          background: #0b1510;
-          padding: 40px;
-          border: 1px solid #1b5035;
-          border-radius: 22px;
-          box-shadow: 0 20px 70px #00e89a12;
-        }
+        <p>
+          Choose an occasion, share your message, and we’ll create a digital
+          card that feels uniquely yours.
+        </p>
+      </section>
 
-        .order-label {
-          color: #00e89a;
-          letter-spacing: 4px;
-        }
+      <section className="card-grid wrap">
+        {cards.map((card, index) => (
+          <article className={`wish-card ${card.tone}`} key={card.name}>
+            <div className="wish-art">
+              <span>0{index + 1}</span>
+              <div className="wish-symbol">
+                {["✦", "♡", "❋", "☾"][index]}
+              </div>
+            </div>
 
-        h1 {
-          font-size: clamp(36px, 6vw, 55px);
-          margin: 20px 0;
-        }
+            <div className="wish-info">
+              <div>
+                <h3>{card.name}</h3>
+                <p>{card.desc}</p>
+              </div>
 
-        h1 span {
-          color: #00e89a;
-        }
+              <Link href="/order" aria-label={`Order ${card.name}`}>
+                <ArrowUpRight />
+              </Link>
+            </div>
+          </article>
+        ))}
+      </section>
 
-        p {
-          color: #a4b3ac;
-          line-height: 1.7;
-          margin-bottom: 30px;
-        }
+      <section className="services wrap" id="services">
+        <div className="eyebrow">WHAT WE CREATE</div>
 
-        label {
-          display: block;
-          margin: 20px 0 9px;
-          color: #c5d8cc;
-          font-size: 14px;
-        }
+        <h2>
+          Digital craft, <em>built around you.</em>
+        </h2>
 
-        input, textarea, select {
-          width: 100%;
-          box-sizing: border-box;
-          padding: 14px;
-          background: #06100a;
-          border: 1px solid #294735;
-          border-radius: 9px;
-          color: white;
-          font: inherit;
-        }
+        <div className="service-grid">
+          <article>
+            <Globe2 />
+            <span>01 / WEB DEVELOPMENT</span>
+            <h3>3D Website Development</h3>
+            <p>
+              Modern, responsive websites with immersive visuals and a
+              polished user experience.
+            </p>
+            <Link href="/order">
+              Discuss your website <ArrowUpRight size={16} />
+            </Link>
+          </article>
 
-        input:focus, textarea:focus, select:focus {
-          outline: none;
-          border-color: #00e89a;
-        }
+          <article>
+            <Layers3 />
+            <span>02 / DIGITAL GREETINGS</span>
+            <h3>Online Wishes Cards</h3>
+            <p>
+              Personalised greeting cards for birthdays, weddings,
+              celebrations and meaningful moments.
+            </p>
+            <Link href="/order">
+              Order a wishes card <ArrowUpRight size={16} />
+            </Link>
+          </article>
+        </div>
+      </section>
 
-        button {
-          width: 100%;
-          padding: 17px;
-          margin-top: 30px;
-          background: #00e89a;
-          color: #031009;
-          border: none;
-          border-radius: 9px;
-          font-size: 15px;
-          font-weight: bold;
-          cursor: pointer;
-        }
+      <section className="process wrap" id="process">
+        <div className="eyebrow">SIMPLE & PERSONAL</div>
 
-        button:hover {
-          background: #7bffc5;
-        }
+        <h2>
+          From your idea to <em>the final detail.</em>
+        </h2>
 
-        @media(max-width: 550px) {
-          .order-container {
-            padding: 24px 18px;
-          }
-        }
-      `}</style>
+        <div className="steps">
+          <div>
+            <b>01</b>
+            <h3>Tell us your idea</h3>
+            <p>Share the occasion, references and requirements.</p>
+          </div>
+
+          <div>
+            <b>02</b>
+            <h3>Discuss & confirm</h3>
+            <p>We contact you, discuss the scope and confirm pricing.</p>
+          </div>
+
+          <div>
+            <b>03</b>
+            <h3>We create</h3>
+            <p>Your project moves into production after confirmation.</p>
+          </div>
+
+          <div>
+            <b>04</b>
+            <h3>Receive your design</h3>
+            <p>We deliver through WhatsApp and email.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="cta wrap" id="work">
+        <div className="eyebrow">LET’S CREATE SOMETHING</div>
+
+        <h2>
+          Your idea deserves
+          <br />
+          <em>a beautiful finish.</em>
+        </h2>
+
+        <p>Tell us what you have in mind. We’ll take it from there.</p>
+
+        <Link className="button primary" href="/order">
+          Place an Order <ArrowUpRight size={18} />
+        </Link>
+      </section>
+
+      <footer className="footer wrap">
+        <div className="brand">
+          <img src="/logo.png" alt="KHAANS DIGITS Logo" width="38" height="38" />
+          <span>
+            KHAANS <b>DIGITS</b>
+          </span>
+        </div>
+
+        <p>Premium digital experiences, made personal.</p>
+
+        <div>
+          <a href="mailto:ibraheemimran938@gmail.com">Email</a>
+          <a href="https://wa.me/923449531512">WhatsApp</a>
+          <Link href="/login">Customer Login</Link>
+        </div>
+
+        <small>
+          © {new Date().getFullYear()} KHAANS DIGITS. All rights reserved.
+        </small>
+      </footer>
     </main>
-  );
-}
-
-export default function OrderPage() {
-  return (
-    <Suspense
-      fallback={
-        <main className="min-h-screen bg-[#050a08] text-white flex items-center justify-center">
-          Loading Order Form...
-        </main>
-      }
-    >
-      <OrderPageContent />
-    </Suspense>
   );
 }
