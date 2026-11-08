@@ -80,13 +80,26 @@ export default function Home() {
           </p>
 
           <div className="actions">
-            <Link className="button primary" href="/order">
-              Order Your Design <ArrowUpRight size={18} />
-            </Link>
-            <a className="button ghost" href="#cards">
-              Explore wishes cards
-            </a>
-          </div>
+  <Link className="button primary" href="/order">
+    Start an Order <ArrowUpRight size={18} />
+  </Link>
+
+  <a
+    className="button ghost"
+    href="#cards"
+  >
+    Explore wishes cards
+  </a>
+</div>
+
+<a
+  href="https://wa.me/923449531512"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="whatsapp-button"
+>
+  <span>☏</span> Chat on WhatsApp
+</a>
 
           <div className="trust">
             <ShieldCheck size={17} />
